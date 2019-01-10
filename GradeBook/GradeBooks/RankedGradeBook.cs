@@ -19,22 +19,40 @@ namespace GradeBook.GradeBooks
                 throw new InvalidOperationException("Ranked-grading requires a minimum of 5 students to work");
             }
             var threshold = (int)Math.Round(Students.Count * 0.2);
-            var Count = 0;
+            var numberOfGradesBelowThreshold = 0;
             foreach (var student in Students)
             {
                 if (averageGrade > student.AverageGrade)
-                    Count++;
+                    numberOfGradesBelowThreshold++;
             }
-            if (Count >= threshold * 4)
+            if (numberOfGradesBelowThreshold >= threshold * 4)
                 return 'A';
-            else if (Count >= threshold * 3)
+            else if (numberOfGradesBelowThreshold >= threshold * 3)
                 return 'B';
-            else if (Count >= threshold * 2)
+            else if (numberOfGradesBelowThreshold >= threshold * 2)
                 return 'C';
-            else if (Count >= threshold)
+            else if (numberOfGradesBelowThreshold >= threshold)
                 return 'D';
             else
                 return 'F';
+        }
+        public override void CalculateStatistics()
+        {
+            if (Students.Count < 5)
+            {
+                Console.WriteLine("Ranked grading requires at least 5 students with grades in order to properly calculate a student's overall grade.");
+                return;
+            }
+            base.CalculateStatistics();
+        }
+        public override void CalculateStudentStatistics(string name)
+        {
+            if (Students.Count < 5)
+            {
+                Console.WriteLine("Ranked grading requires at least 5 students with grades in order to properly calculate a student's overall grade.");
+                return;
+            }
+            base.CalculateStudentStatistics(name);
         }
     }
 }
